@@ -141,13 +141,37 @@ public class GvrViewer : MonoBehaviour {
   /// release the Ctrl key.
   public bool autoUntiltHead = true;
 
-  /// @cond
-  /// Use unity remote as the input source.
-  public bool UseUnityRemoteInput = false;
-  /// @endcond
+    /// @cond
+    /// Use unity remote as the input source.
+    //public bool UseUnityRemoteInput = false;
 
-  /// The screen size to emulate when testing in the Unity Editor.
-  public GvrProfile.ScreenSizes ScreenSize {
+    public bool UseUnityRemoteInput
+    {
+        get
+        {
+            return useUnityRemoteInput;
+        }
+        set
+        {
+            if (value != useUnityRemoteInput)
+            {
+                useUnityRemoteInput = value;
+                if (device != null)
+                {
+                    device.UpdateScreenData();
+                }
+            }
+        }
+
+    }
+    [SerializeField]
+    private bool useUnityRemoteInput = false;
+
+
+    /// @endcond
+
+    /// The screen size to emulate when testing in the Unity Editor.
+    public GvrProfile.ScreenSizes ScreenSize {
     get {
       return screenSize;
     }

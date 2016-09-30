@@ -3,7 +3,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class GyroscopeEnable : MonoBehaviour
+public class gyroscope : MonoBehaviour
 {
     private Gyroscope gyro;
 

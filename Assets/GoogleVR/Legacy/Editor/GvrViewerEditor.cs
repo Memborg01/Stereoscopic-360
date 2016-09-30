@@ -37,8 +37,14 @@ public class GvrViewerEditor : Editor {
   GUIContent neckModelScaleLabel = new GUIContent("Neck Model Scale",
       "The scale factor of the builtin neck model [0..1].  To disable, set to 0.");
 
+  /*GUIContent editorSettingsLabel = new GUIContent("Unity Editor Emulation Settings",
+      "Controls for the in-editor emulation of a Cardboard viewer.");*/
+
   GUIContent editorSettingsLabel = new GUIContent("Unity Editor Emulation Settings",
-      "Controls for the in-editor emulation of a Cardboard viewer.");
+        "Controls for the in-editor emulation of a Cardboard viewer.");
+
+  GUIContent UseUnityRemoteInputLabel = new GUIContent("Use unity remote as the input.",
+        "When you can use Unity Remote Gyro");
 
   GUIContent autoUntiltHeadLabel = new GUIContent("Auto Untilt Head",
       "When enabled, just release Ctrl to untilt the head.");
@@ -79,10 +85,17 @@ public class GvrViewerEditor : Editor {
 
     EditorGUILayout.Separator();
 
+        /* EditorGUILayout.LabelField(editorSettingsLabel, headingStyle);
+         gvrViewer.autoUntiltHead =
+             EditorGUILayout.Toggle(autoUntiltHeadLabel, gvrViewer.autoUntiltHead);*/
+
     EditorGUILayout.LabelField(editorSettingsLabel, headingStyle);
     gvrViewer.autoUntiltHead =
         EditorGUILayout.Toggle(autoUntiltHeadLabel, gvrViewer.autoUntiltHead);
-    gvrViewer.ScreenSize = (GvrProfile.ScreenSizes)
+        gvrViewer.UseUnityRemoteInput =
+            EditorGUILayout.Toggle(UseUnityRemoteInputLabel, gvrViewer.UseUnityRemoteInput);
+
+        gvrViewer.ScreenSize = (GvrProfile.ScreenSizes)
         EditorGUILayout.EnumPopup(screenSizeLabel, gvrViewer.ScreenSize);
     gvrViewer.ViewerType = (GvrProfile.ViewerTypes)
         EditorGUILayout.EnumPopup(viewerTypeLabel, gvrViewer.ViewerType);
