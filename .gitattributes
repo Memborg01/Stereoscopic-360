@@ -14,3 +14,4 @@ git[[:space:]]lfs[[:space:]]track[[:space:]]*.a, filter=lfs diff=lfs merge=lfs -
 so, filter=lfs diff=lfs merge=lfs -text
 dll, filter=lfs diff=lfs merge=lfs -text
 xml filter=lfs diff=lfs merge=lfs -text
+git[[:space:]]lfs[[:space:]]track[[:space:]]*.jpg filter=lfs diff=lfs merge=lfs -text
