@@ -369,6 +369,10 @@ Prefab:
       propertyPath: m_Name
       value: StereoSpereMap
       objectReference: {fileID: 0}
+    - target: {fileID: 1000010895046394, guid: 5a4bb8e82e1d4e04e9d1ac220866a16c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a4bb8e82e1d4e04e9d1ac220866a16c, type: 2}
   m_IsPrefabParent: 0
