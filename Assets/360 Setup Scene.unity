@@ -133,6 +133,41 @@ Prefab:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012470441580, guid: b693a7fccd1c7f84db07b5f546f121d5,
+        type: 2}
+      propertyPath: keepStereoUpdated
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012254548920, guid: b693a7fccd1c7f84db07b5f546f121d5,
+        type: 2}
+      propertyPath: toggleCullingMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010275201266, guid: b693a7fccd1c7f84db07b5f546f121d5,
+        type: 2}
+      propertyPath: toggleCullingMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20000011022883640, guid: b693a7fccd1c7f84db07b5f546f121d5,
+        type: 2}
+      propertyPath: m_CullingMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20000010301439174, guid: b693a7fccd1c7f84db07b5f546f121d5,
+        type: 2}
+      propertyPath: m_CullingMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20000010301439174, guid: b693a7fccd1c7f84db07b5f546f121d5,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20000011022883640, guid: b693a7fccd1c7f84db07b5f546f121d5,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b693a7fccd1c7f84db07b5f546f121d5, type: 2}
   m_IsPrefabParent: 0
@@ -300,7 +335,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11414954, guid: 970dd4b9371394fb4890965f608d46fd, type: 2}
       propertyPath: viewerType
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11414954, guid: 970dd4b9371394fb4890965f608d46fd, type: 2}
       propertyPath: autoUntiltHead
@@ -372,6 +407,14 @@ Prefab:
     - target: {fileID: 1000010895046394, guid: 5a4bb8e82e1d4e04e9d1ac220866a16c, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013574112448, guid: 5a4bb8e82e1d4e04e9d1ac220866a16c, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013574112448, guid: 5a4bb8e82e1d4e04e9d1ac220866a16c, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a4bb8e82e1d4e04e9d1ac220866a16c, type: 2}

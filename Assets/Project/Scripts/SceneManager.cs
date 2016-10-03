@@ -17,8 +17,8 @@ public class SceneManager : MonoBehaviour {
         LeftCam.GetComponent<Camera>();
 
 
-        LeftCam.cullingMask = 9 << 8;
-        CamRight.cullingMask = 9 << 9;
+        LeftCam.cullingMask = 1 << 8;
+        CamRight.cullingMask = 1 << 9;
         //LeftCam.cullingMask = 8;
         //CamRight.cullingMask = 9;
 
