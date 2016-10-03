@@ -168,6 +168,29 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4000010992920394, guid: b693a7fccd1c7f84db07b5f546f121d5, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013486715952, guid: b693a7fccd1c7f84db07b5f546f121d5, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012470441580, guid: b693a7fccd1c7f84db07b5f546f121d5,
+        type: 2}
+      propertyPath: matchMonoFOV
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20000012972014430, guid: b693a7fccd1c7f84db07b5f546f121d5,
+        type: 2}
+      propertyPath: m_OcclusionCulling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012470441580, guid: b693a7fccd1c7f84db07b5f546f121d5,
+        type: 2}
+      propertyPath: directRender
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b693a7fccd1c7f84db07b5f546f121d5, type: 2}
   m_IsPrefabParent: 0
@@ -287,6 +310,10 @@ Prefab:
       propertyPath: CamRight
       value: 
       objectReference: {fileID: 1829003681}
+    - target: {fileID: 1000013462130810, guid: 40d3a021c3ebeec42bc7b5468c398a48, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 40d3a021c3ebeec42bc7b5468c398a48, type: 2}
   m_IsPrefabParent: 0
@@ -347,11 +374,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11414954, guid: 970dd4b9371394fb4890965f608d46fd, type: 2}
       propertyPath: distortionCorrectionEnabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11414954, guid: 970dd4b9371394fb4890965f608d46fd, type: 2}
       propertyPath: useUnityRemoteInput
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11414954, guid: 970dd4b9371394fb4890965f608d46fd, type: 2}
+      propertyPath: stereoScreenScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11414954, guid: 970dd4b9371394fb4890965f608d46fd, type: 2}
+      propertyPath: neckModelScale
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 970dd4b9371394fb4890965f608d46fd, type: 2}
@@ -410,11 +445,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000013574112448, guid: 5a4bb8e82e1d4e04e9d1ac220866a16c, type: 2}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 4000013574112448, guid: 5a4bb8e82e1d4e04e9d1ac220866a16c, type: 2}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011493156558, guid: 5a4bb8e82e1d4e04e9d1ac220866a16c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013574112448, guid: 5a4bb8e82e1d4e04e9d1ac220866a16c, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a4bb8e82e1d4e04e9d1ac220866a16c, type: 2}
