@@ -8,7 +8,7 @@ public class SceneManager : MonoBehaviour {
     public Camera LeftCam;
     public Camera CamRight;
 
-    
+    bool layerSet = false;
 
 	// Use this for initialization
 	void Start () {
@@ -19,18 +19,27 @@ public class SceneManager : MonoBehaviour {
 
         LeftCam.cullingMask = 1 << 8;
         CamRight.cullingMask = 1 << 9;
-        //LeftCam.cullingMask = 8;
-        //CamRight.cullingMask = 9;
 
-        Debug.Log("Left Cull = " + LeftCam.cullingMask);
-        Debug.Log("Right Cull = " + CamRight.cullingMask);
 
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (LeftCam.cullingMask != 256){
+        if(layerSet == false)
+        {
+            StereoLayer();
+        }
+       
+
+
+    }
+
+    void StereoLayer()
+    {
+
+        if (LeftCam.cullingMask != 256)
+        {
 
             LeftCam.cullingMask = 1 << 8;
             //Debug.Log("Left Mask changed");
@@ -46,5 +55,8 @@ public class SceneManager : MonoBehaviour {
 
         }
 
+        layerSet = true;
+
     }
+
 }
