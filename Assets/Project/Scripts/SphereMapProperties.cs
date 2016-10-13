@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SceneSetup : MonoBehaviour {
+public class SphereMapProperties : MonoBehaviour {
+
+    public string spheremapName;
 
 	// Use this for initialization
 	void Start () {
