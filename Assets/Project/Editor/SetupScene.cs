@@ -8,7 +8,7 @@ public class SceneSetup
     public int stereoImgAmount = 20;
     int goPerEye;
 
-    [MenuItem("MyTools/CreateGameObjects")]
+    
     static void Create()
     {
         for (int x = 0; x != 10; x++)
