@@ -5,8 +5,6 @@ public class Fader : MonoBehaviour
 {
     
     public int CurrentDegree;
-    
-    int a, HasBeenSwitched = 0;
 
     public int NumberOfImages;
     
@@ -16,6 +14,8 @@ public class Fader : MonoBehaviour
     public Renderer[] sphereMapRenderers;
     int imagesPerEye;
     float[] trans;
+
+    public float transCorrector = 1.3f;
 
     bool stereoShifted = false;
 
@@ -35,28 +35,8 @@ public class Fader : MonoBehaviour
     {
 
         //Debug.Log("In Update");
-        a = CurrentDegree / (360 / NumberOfImages);
         if (CurrentDegree > 360) { CurrentDegree = CurrentDegree - 360; }
         if (CurrentDegree < 0) { CurrentDegree = CurrentDegree + 360; }
-
-        //Debug.Log("Degrees Checked");
-
-
-        // - al tudom mozgatni elore
-
-        //Trans1 = (CurrentDegree-18) / 18f;
-        /*  if (CurrentDegree > 36) { trans[0] = (36f - (CurrentDegree - 36f)) / 36f; } else { trans[0] = CurrentDegree / 36f; }
-          if (CurrentDegree > 72) { trans[1] = (54f - (CurrentDegree - 54f)) / 36f; } else { trans[1] = (CurrentDegree - 36) / 36f; }
-          if (CurrentDegree > 108) { trans[2] = (72f - (CurrentDegree - 72f)) / 36f; } else { trans[2] = (CurrentDegree - 72) / 36f; }
-          if (CurrentDegree > 144) { trans[3] = (90f - (CurrentDegree - 90f)) / 36f; } else { trans[3] = (CurrentDegree - 108) / 36f; }
-          if (CurrentDegree > 180) { trans[4] = (108f - (CurrentDegree - 108f)) / 36f; } else { trans[4] = (CurrentDegree - 144) / 36f; }
-          if (CurrentDegree > 216) { trans[5] = (144f - (CurrentDegree - 144f)) / 36f; } else { trans[5] = (CurrentDegree - 180) / 36f; }
-          if (CurrentDegree > 252) { trans[6] = (180f - (CurrentDegree - 180f)) / 36f; } else { trans[6] = (CurrentDegree - 216) / 36f; }
-          if (CurrentDegree > 288) { trans[7] = (216f - (CurrentDegree - 216f)) / 36f; } else { trans[7] = (CurrentDegree - 252) / 36f; }
-          if (CurrentDegree > 324) { trans[8] = (252f - (CurrentDegree - 252f)) / 36f; } else { trans[8] = (CurrentDegree - 288) / 36f; }*/
-        //if (CurrentDegree>288){Trans8 = (216f-(CurrentDegree-216f)) / 36f;} else {Trans8 = (CurrentDegree-252)/ 36f;}
-
-        // Debug.Log("Transparencies Checked");
 
         flipLayer();
 
@@ -76,7 +56,7 @@ public class Fader : MonoBehaviour
 
         SetSpheremapTransparency();
 
-        SetRenderer();
+       // SetRenderer();
 
 
     }
@@ -127,7 +107,6 @@ public class Fader : MonoBehaviour
     void SetRenderer()
     {
 
-        //Debug.Log("In Set Renderer");
 
         GameObject[] leftSpheremaps, rightSpheremaps;
         leftSpheremaps = GameObject.FindGameObjectsWithTag("left");
@@ -146,8 +125,6 @@ public class Fader : MonoBehaviour
             tmpLeftRenderer = sphereMapRenderers[i];
             tmpRightRenderer = sphereMapRenderers[i + imagesPerEye];
 
-            //Debug.Log("Renderer " + i + " left = " + tmpLeftRenderer + "; right = " + tmpRightRenderer);
-            //Debug.Log("i = " + i);
 
         }
 
@@ -162,20 +139,10 @@ public class Fader : MonoBehaviour
         for (int i = 0; i < imagesPerEye; i++)
         {
 
-            /*
-            Material leftMat = sphereMapRenderers[i].GetComponent<Material>();
-            Material rightMat = sphereMapRenderers[i + imagesPerEye].GetComponent<Material>();
-
-            leftMat.color = new Color(1.0f, 1.0f, 1.0f, trans[i]);
-            rightMat.color = new Color(1.0f, 1.0f, 1.0f, trans[i]);
-            */
 
             sphereMapRenderers[i].material.color = new Color(1.0f, 1.0f, 1.0f, trans[i]);
             sphereMapRenderers[i + imagesPerEye].material.color = new Color(1.0f, 1.0f, 1.0f, trans[i]);
 
-
-            /*Debug.Log("transparency " + i + " = " + trans[i]);
-            Debug.Log("i = " + i);*/
 
         }
 
@@ -186,35 +153,119 @@ public class Fader : MonoBehaviour
 
         float sliceSize = 360 / NumberOfImages;
 
+        float[] diff = new float[trans.Length];
 
-        for(int i = 0; i < trans.Length; i++)
+        float normalTrans = 1 / sliceSize;
+
+        if (CurrentDegree >= 0 && CurrentDegree < 180)
         {
 
-            float tmpSliceSize = sliceSize * (i + 1);
-
-            float angularDiff = Mathf.Abs(CurrentDegree - tmpSliceSize);
-
-            if(angularDiff <= 18)
+            for (int i = 0; i < trans.Length; i++)
             {
-                if (CurrentDegree > tmpSliceSize)
+
+                float tmpSliceSize = sliceSize * i;
+
+                float angularDiff = CurrentDegree - tmpSliceSize;
+
+                if (angularDiff < 0)
                 {
-                    trans[i] = (tmpSliceSize - (CurrentDegree - tmpSliceSize)) / tmpSliceSize;
+                    angularDiff = -angularDiff;
                 }
+
+                diff[i] = angularDiff;
+
+                if (angularDiff <= 18 && angularDiff >= 0)
+                {
+
+                    trans[i] = ((sliceSize - angularDiff) * normalTrans) * transCorrector;
+
+                }
+
                 else
                 {
-                    trans[i] = CurrentDegree / tmpSliceSize;
+                    trans[i] = 0;
                 }
-                Mathf.Clamp01(trans[i]);
+
+                Debug.Log("Angular Difference for img " + i + " = " + diff[i]);
+
+            }
+        }
+        else if (CurrentDegree >= 180 && CurrentDegree < 360)
+        {
+
+            for (int i = 0; i < trans.Length; i++)
+            {
+
+                float tmpSliceSize = sliceSize * (i + imagesPerEye);
+
+                float angularDiff = CurrentDegree - tmpSliceSize;
+
+                if (angularDiff < 0)
+                {
+                    angularDiff = -angularDiff;
+                }
+
+                diff[i] = angularDiff;
+
+                if (angularDiff <= 18 && angularDiff >= 0)
+                {
+
+                    trans[i] = ((sliceSize - angularDiff) * normalTrans) * transCorrector;
+
+                }
+
+                else
+                {
+                    trans[i] = 0;
+                }
+
+                Debug.Log("Angular Difference for img " + i + " = " + diff[i]);
+                
+
+            }
+
+        }
+        else if(CurrentDegree > 342 && CurrentDegree <= 360 || CurrentDegree >= 0 && CurrentDegree < 18)
+        {
+
+
+            float tmpSliceSize;
+
+            if (CurrentDegree >= 0 && CurrentDegree <= 18)
+            {
+                tmpSliceSize = sliceSize;
+            }
+            else
+            {
+                tmpSliceSize = sliceSize * 20;
+            }
+
+            float angularDiff = CurrentDegree - tmpSliceSize;
+
+            if (angularDiff < 0)
+            {
+                angularDiff = -angularDiff;
+            }
+
+            
+
+            if (angularDiff <= 18 && angularDiff >= 0)
+            {
+
+                trans[0] = ((sliceSize - angularDiff) * normalTrans) * transCorrector;
+
             }
 
             else
             {
-                trans[i] = 0;
+                trans[0] = 0;
             }
-
         }
 
+        Debug.Log("Images pr eye = " + trans.Length);
+
         //Debug.Log("trans.length = " + trans.Length);
+
 
     }
 

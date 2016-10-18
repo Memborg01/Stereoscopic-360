@@ -217,6 +217,14 @@ Prefab:
       propertyPath: m_TagString
       value: right
       objectReference: {fileID: 0}
+    - target: {fileID: 4000011726995032, guid: ad5be943f1cc7e34eb62053797c929e4, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010294305850, guid: ad5be943f1cc7e34eb62053797c929e4, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad5be943f1cc7e34eb62053797c929e4, type: 2}
   m_IsPrefabParent: 0
@@ -350,9 +358,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 062f6eb9fb75ae3458f4f068c8c92410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentDegree: 0
-  NumberOfImages: 10
+  CurrentDegree: 20
+  NumberOfImages: 20
   sphereMapRenderers: []
+  transCorrector: 1.7
 --- !u!1 &374222657
 GameObject:
   m_ObjectHideFlags: 0
