@@ -8,9 +8,6 @@ public class Fader : MonoBehaviour
 
     public int NumberOfImages;
 
-
-    // New Variables for Dynamic Setup
-
     GameObject mainSpheremap, leftSpheremap, rightSpheremap;
 
     public GameObject[] leftSphereMaps, rightSphereMaps;
@@ -18,44 +15,24 @@ public class Fader : MonoBehaviour
     public Renderer[] leftSphereMapRenderer, rightSphereMapRenderer;
     float[] trans;
 
-    
-
-    //public float transCorrector = 1.3f;
-
-    //bool stereoShifted = false;
-
-
     void Start()
     {
-
-        // Debug.Log("Start Function Run");
 
         GetSphereMapObjects();
 
         GetRenderer();
-
-       // Debug.Log("Start Function Ended");
-
 
     }
     void Update()
     {
 
         CurrentDegree = this.transform.eulerAngles.y;
-        //Debug.Log("In Update");
-        /*if (CurrentDegree > 360) { CurrentDegree = CurrentDegree - 360; }
-        if (CurrentDegree < 0) { CurrentDegree = CurrentDegree + 360; }*/
-
-        
 
         transHandler();
 
-        debugArray();
+       // debugArray();
 
         SetSpheremapTransparency();
-
-       // SetRenderer();
-
 
     }
 
@@ -125,8 +102,6 @@ public class Fader : MonoBehaviour
     void SetSpheremapTransparency()
     {
 
-        //Debug.Log("In SetSpheremapTrans");
-
         for (int i = 0; i < trans.Length; i++)
         {
             if (trans[i] < 0)
@@ -139,59 +114,7 @@ public class Fader : MonoBehaviour
             }
         }
 
-        for(int k = 1; k < trans.Length-2; k++)
-        {
-
-            if((trans[k]+trans[k-1]) > 1 || (trans[k] + trans[k + 1]) > 1)
-            {
-
-                if((trans[k] + trans[k - 1]) > 1)
-                {
-
-                    float tSum = (trans[k] + trans[k - 1]);
-                    float alpha = tSum - 1;
-
-                    if(trans[k] == 1)
-                    {
-                        trans[k - 1] = 0.0f;
-                    }
-                    else if (trans[k - 1] == 1)
-                    {
-                        trans[k] = 0.0f;
-                    }
-                    else
-                    {
-                        trans[k] = trans[k] - (alpha / 2);
-                        trans[k - 1] = trans[k - 1] - (alpha / 2);
-                    }
-
-                }
-
-                else if ((trans[k] + trans[k + 1]) > 1)
-                {
-
-                    float tSum = (trans[k] + trans[k + 1]);
-                    float alpha = tSum - 1;
-
-                    if (trans[k] == 1)
-                    {
-                        trans[k + 1] = 0.0f;
-                    }
-                    else if (trans[k + 1] == 1)
-                    {
-                        trans[k] = 0.0f;
-                    }
-                    else
-                    {
-                        trans[k] = trans[k] - (alpha / 2);
-                        trans[k + 1] = trans[k + 1] - (alpha / 2);
-                    }
-
-                }
-
-            }
-
-        }
+       
 
         if(trans[0]+trans[NumberOfImages-1] > 1)
         {
@@ -213,19 +136,16 @@ public class Fader : MonoBehaviour
                 trans[NumberOfImages - 1] = trans[NumberOfImages - 1] - (alpha / 2);
             }
 
-            Debug.Log("TransParency for 360/0 changed. 360 = " + trans[NumberOfImages - 1] + ". 0 = " + trans[0]);
-
         }
 
 
         for (int i = 0; i < NumberOfImages; i++)
         {
 
-            Debug.Log("Degree = " + CurrentDegree);
+            //Debug.Log("Degree = " + CurrentDegree);
 
             leftSphereMapRenderer[i].material.color = new Color(1.0f, 1.0f, 1.0f, trans[i]);
             rightSphereMapRenderer[i].material.color = new Color(1.0f, 1.0f, 1.0f, trans[i]);
-
 
         }
 
@@ -234,12 +154,9 @@ public class Fader : MonoBehaviour
     void transHandler()
     {
 
-        float sliceSize = 360 / NumberOfImages;
-        
+        float sliceSize = 360 / NumberOfImages;     
 
         float normalTrans = 1 / sliceSize;
-
-       // Debug.Log("Current Degree = " + CurrentDegree);
 
         if (CurrentDegree >= 0 && CurrentDegree <= 342)
         {
@@ -273,8 +190,6 @@ public class Fader : MonoBehaviour
                     rightSphereMaps[i].SetActive(false);
                 }
 
-                //Debug.Log("Angular Difference for img " + i + " = " + diff[i]);
-
             }
 
         }
@@ -282,17 +197,11 @@ public class Fader : MonoBehaviour
         if(CurrentDegree > 342 && CurrentDegree <= 360)
         {
 
-
             leftSphereMaps[NumberOfImages - 2].SetActive(false);
             rightSphereMaps[NumberOfImages - 2].SetActive(false);
 
             leftSphereMaps[1].SetActive(false);
             rightSphereMaps[1].SetActive(false);
-
-            /*if(CurrentDegree == 360)
-            {
-                CurrentDegree = 0;
-            }*/
 
             float angularDiffEnd = CurrentDegree - 360;
             float angularDiff = CurrentDegree - (360 - sliceSize);
@@ -336,16 +245,9 @@ public class Fader : MonoBehaviour
                 rightSphereMaps[NumberOfImages - 1].SetActive(false);
             }
 
-
-
         }
         
-
-        //Debug.Log("trans.length = " + trans.Length);
-
-
     }
-
 
     void debugArray()
     {
@@ -356,6 +258,65 @@ public class Fader : MonoBehaviour
             Debug.Log("Transparency " + i + " = " + trans[i]);
 
         }
+
+    }
+
+    void clampTrans() // Failsafe (Part of old code and currently not used
+    {
+
+        for(int k = 1; k < trans.Length-2; k++)
+       {
+
+           if((trans[k]+trans[k-1]) > 1 || (trans[k] + trans[k + 1]) > 1)
+           {
+
+               if((trans[k] + trans[k - 1]) > 1)
+               {
+
+                   float tSum = (trans[k] + trans[k - 1]);
+                   float alpha = tSum - 1;
+
+                   if(trans[k] == 1)
+                   {
+                       trans[k - 1] = 0.0f;
+                   }
+                   else if (trans[k - 1] == 1)
+                   {
+                       trans[k] = 0.0f;
+                   }
+                   else
+                   {
+                       trans[k] = trans[k] - (alpha / 2);
+                       trans[k - 1] = trans[k - 1] - (alpha / 2);
+                   }
+
+               }
+
+               else if ((trans[k] + trans[k + 1]) > 1)
+               {
+
+                   float tSum = (trans[k] + trans[k + 1]);
+                   float alpha = tSum - 1;
+
+                   if (trans[k] == 1)
+                   {
+                       trans[k + 1] = 0.0f;
+                   }
+                   else if (trans[k + 1] == 1)
+                   {
+                       trans[k] = 0.0f;
+                   }
+                   else
+                   {
+                       trans[k] = trans[k] - (alpha / 2);
+                       trans[k + 1] = trans[k + 1] - (alpha / 2);
+                   }
+
+               }
+
+           }
+
+       }
 
     }
 

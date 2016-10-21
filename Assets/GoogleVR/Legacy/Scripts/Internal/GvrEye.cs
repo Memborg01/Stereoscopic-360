@@ -96,7 +96,8 @@ public class GvrEye : MonoBehaviour {
 
   void Start() {
     var ctlr = Controller;
-    if (ctlr == null) {
+
+        if (ctlr == null) {
       Debug.LogError("GvrEye must be child of a StereoController.");
       enabled = false;
       return;
@@ -105,7 +106,16 @@ public class GvrEye : MonoBehaviour {
     controller = ctlr;
     monoCamera = controller.GetComponent<Camera>();
     SetupStereo(/*forceUpdate=*/true);
-  }
+
+    }
+
+    void Update()
+    {
+        if (toggleCullingMask == 0)
+        {
+            toggleCullingMask = cam.cullingMask;
+        }
+    }
 
   public void UpdateStereoValues() {
     Matrix4x4 proj = GvrViewer.Instance.Projection(eye);
@@ -240,7 +250,7 @@ public class GvrEye : MonoBehaviour {
 
     // Sync the camera properties.
     cam.CopyFrom(monoCamera);
-    cam.cullingMask ^= toggleCullingMask.value;
+    cam.cullingMask = toggleCullingMask.value;
 
     // Not sure why we have to do this, but if we don't then switching between drawing to
     // the main screen or to the stereo rendertexture acts very strangely.

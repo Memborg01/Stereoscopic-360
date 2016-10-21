@@ -42,8 +42,8 @@ public class SphereMapTools : ScriptableWizard {
 
         for(int i = 1; i <= imgAmount/2; i++)
         {
-            GameObject LeftSphereMap = new GameObject();
-            GameObject RightSphereMap = new GameObject();
+            GameObject LeftSphereMap = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            GameObject RightSphereMap = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
             LeftSphereMap.name = "left_" + i;
             RightSphereMap.name = "right_" + i;
@@ -51,11 +51,14 @@ public class SphereMapTools : ScriptableWizard {
             LeftSphereMap.transform.position = origin;
             RightSphereMap.transform.position = origin;
 
+
+
             LeftSphereMap.transform.SetParent(LeftSmSystem.transform);
             RightSphereMap.transform.SetParent(RightSmSystem.transform);
 
         }
 
+        SphereMapSystem.transform.localScale = new Vector3(1.25f, 1.25f, 1.25f);
 
     }
 
