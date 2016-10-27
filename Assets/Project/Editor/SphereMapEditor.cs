@@ -7,7 +7,7 @@ using System.IO;
 public class SphereMapEditor : Editor {
 
     public string importFolder = "No Path Set";
-    string destFolder;
+    string destFolder, smSysName, resourceFolder, resSubFolder;
 
     Texture[] tex;
     int imageAmount;
@@ -31,9 +31,16 @@ public class SphereMapEditor : Editor {
         leftParent = sphereMapProp.leftSphereMap;
         rightParent = sphereMapProp.rightSphereMap;
 
+        smSysName = sphereMapProp.spheremapName;
+
+        resourceFolder = destFolder + "/Resources/"+smSysName+"_imgs/";
+        resSubFolder = smSysName + "_imgs/";
+
         EditorGUILayout.LabelField("Sphere Map Name", sphereMapProp.spheremapName);
         EditorGUILayout.IntField("Images Per Eye", sphereMapProp.imagesPerEye);
         EditorGUILayout.LabelField("Project Image Path", sphereMapProp.sphereMapImageFolder);
+
+        EditorGUILayout.LabelField("Resource Path", resourceFolder);
 
         EditorGUILayout.LabelField("Left GameObject", sphereMapProp.leftSphereMap.name);
         EditorGUILayout.LabelField("Right GameObject", sphereMapProp.rightSphereMap.name);
@@ -53,14 +60,13 @@ public class SphereMapEditor : Editor {
             importFolder = EditorUtility.OpenFolderPanel("Load Sphere Map Textures", "", "");
             LoadSphereMaps();
             CreateMaterials();
-            LoadMaterialAssets();
-            AssignMaterials();
+
         }
 
-        if(GUILayout.Button("Reload Sphere Map Images"))
+        if(GUILayout.Button("Assign Materials"))
         {
 
-            LoadSphereMaps();
+            LoadMaterialAssets();
             AssignMaterials();
 
         }
@@ -77,14 +83,11 @@ public class SphereMapEditor : Editor {
 
         int smInt = 0;
 
-        
-        byte[] imgData;
-
         for (int i = 0; i < imgFiles.Length; i++)
         {
 
             //Debug.Log("imageAmount = " + imageAmount);
-            Texture2D tmpImg;
+            
             string sphereImg = imgFiles[i];
 
             //Debug.Log("i = " + i);
@@ -92,17 +95,8 @@ public class SphereMapEditor : Editor {
 
             if (sphereImg.EndsWith(".png") || sphereImg.EndsWith(".jpg") || sphereImg.EndsWith(".JPG") || sphereImg.EndsWith(".PNG"))
             {
-                //File.Copy(sphereImg, destFolder + "/sphereMap_" + smInt + ".jpg");
+                File.Copy(sphereImg, resourceFolder + "sphereMap_" + smInt + ".jpg");
                 
-              //  Debug.Log("path = " + (sphereImg));
-                imgData = File.ReadAllBytes(sphereImg);
-              //  Debug.Log("Image data read");
-              //  Debug.Log("tex lenght = " + tex.Length);
-              //  Debug.Log("tex pos = " + smInt);
-                tmpImg = new Texture2D(2, 2);
-                tmpImg.LoadImage(imgData);
-
-                tex[smInt] = tmpImg;
 
                 //Keep at bottom
                 smInt++;
@@ -126,27 +120,8 @@ public class SphereMapEditor : Editor {
         string leftFolder = destFolder + "/LeftImages/";
         string rightFolder = destFolder + "/RightImages/";
 
-        int rightImgCorrector = imageAmount/2;
-
         for (int i = 0; i < imageAmount; i++)
         {
-
-            //Debug.Log("i = " + i);
-
-            if (rightImgCorrector == imageAmount-1)
-            {
-                rightImgCorrector = 0;
-            }
-            else if(i < imageAmount/2)
-            {
-                rightImgCorrector = (imageAmount/2) + i;
-            }
-            else
-            {
-                rightImgCorrector++;
-            }
-
-            //Debug.Log("Right Image Corrector = " + rightImgCorrector);
 
             leftMats[i] = new Material(Shader.Find("InsideVisibleTrans"));
             rightMats[i] = new Material(Shader.Find("InsideVisibleTrans"));
@@ -219,13 +194,13 @@ public class SphereMapEditor : Editor {
             Renderer leftRend = leftMaps[i].GetComponent<Renderer>();
             Renderer rightRend = rightMaps[i].GetComponent<Renderer>();
 
-            leftRend.sharedMaterial.mainTexture = tex[i] as Texture2D;
-            rightRend.sharedMaterial.mainTexture = tex[rightImgCorrector] as Texture2D;
-
             leftRend.material = leftMatAssets[i];
             rightRend.material = rightMatAssets[i];
 
-            
+            leftMatAssets[i].mainTexture = Resources.Load(resSubFolder + "sphereMap_" + i) as Texture2D;
+            rightMatAssets[i].mainTexture = Resources.Load(resSubFolder + "sphereMap_" + rightImgCorrector) as Texture2D;
+
+           
 
         }
 

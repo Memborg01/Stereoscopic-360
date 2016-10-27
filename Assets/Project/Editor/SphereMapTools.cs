@@ -69,6 +69,16 @@ public class SphereMapTools : ScriptableWizard {
             string rightImgFolder = AssetDatabase.CreateFolder(tempFolderPath, "RightImages");
             string rightImgFolderPath = AssetDatabase.GUIDToAssetPath(rightImgFolder);
         }
+        if(!AssetDatabase.IsValidFolder(tempFolderPath + "/Resources"))
+        {
+            string resourceFolder = AssetDatabase.CreateFolder(tempFolderPath, "Resources");
+            string resourceFolderPath = AssetDatabase.GUIDToAssetPath(resourceFolder);
+        }
+        if (!AssetDatabase.IsValidFolder(tempFolderPath + "/Resources/" + sphereMapName + "_imgs"))
+        {
+            string resSubFolder = AssetDatabase.CreateFolder(tempFolderPath + "/Resources", sphereMapName + "_imgs");
+            string resSubFolderPath = AssetDatabase.GUIDToAssetPath(resSubFolder);
+        }
 
         SphereMapSystem.transform.position = origin;
         LeftSmSystem.transform.position = origin;
@@ -78,6 +88,7 @@ public class SphereMapTools : ScriptableWizard {
         RightSmSystem.transform.SetParent(SphereMapSystem.transform);
 
         SphereMapSystem.name = sphereMapName;
+        SphereMapSystem.gameObject.tag = "mainSphere";
         LeftSmSystem.name = "Left Sphere Map";
         RightSmSystem.name = "Right Sphere Map";
 
@@ -96,6 +107,9 @@ public class SphereMapTools : ScriptableWizard {
 
             LeftSphereMap.transform.SetParent(LeftSmSystem.transform);
             RightSphereMap.transform.SetParent(RightSmSystem.transform);
+
+            LeftSphereMap.gameObject.layer = 8;
+            RightSphereMap.gameObject.layer = 9;
 
         }
 
