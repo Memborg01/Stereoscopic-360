@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using System.IO;
 
 public class SphereMapTools : ScriptableWizard {
 
 
     public string sphereMapName = "Default SphereMap";
     public int imgAmount = 20;
+
 
     [MenuItem ("Stereo SphereMap Tools/Create New Stereo SphereMap System")]
     static void SphereMapWizard()
@@ -18,16 +20,55 @@ public class SphereMapTools : ScriptableWizard {
 
     void OnWizardCreate()
     {
+        
+        
 
         GameObject SphereMapSystem = new GameObject();
         GameObject LeftSmSystem = new GameObject();
         GameObject RightSmSystem = new GameObject();
         Vector3 origin = new Vector3(0, 0, 0);
 
+        string tempFolderPath = "Assets/SphereMaps/" + sphereMapName;
+
         SphereMapProperties properties = SphereMapSystem.AddComponent<SphereMapProperties>();
 
         properties.spheremapName = sphereMapName;
+        properties.imagesPerEye = imgAmount;
 
+        if (!AssetDatabase.IsValidFolder("Assets/SphereMaps"))
+        {
+
+            string sourceFolder = AssetDatabase.CreateFolder("Assets", "SphereMaps");
+            string sourceFolderPath = AssetDatabase.GUIDToAssetPath(sourceFolder);
+            
+
+        }
+
+
+        /*if (AssetDatabase.IsValidFolder("Assets/SphereMaps/" + sphereMapName))
+        {
+            tempFolderPath = "Assets/SphereMaps" + sphereMapName;
+        }*/
+        if (!AssetDatabase.IsValidFolder("Assets/SphereMaps/"+sphereMapName))
+        {
+            string imgMatFolder = AssetDatabase.CreateFolder("Assets/SphereMaps", sphereMapName);
+            string newFolderPath = AssetDatabase.GUIDToAssetPath(imgMatFolder);
+            tempFolderPath = newFolderPath;
+        }
+
+    
+        properties.sphereMapImageFolder = tempFolderPath;
+
+        if (!AssetDatabase.IsValidFolder(tempFolderPath + "/LeftImages"))
+        {
+            string leftImgFolder = AssetDatabase.CreateFolder(tempFolderPath, "LeftImages");
+            string leftImgFolderPath = AssetDatabase.GUIDToAssetPath(leftImgFolder);
+        }
+        if (!AssetDatabase.IsValidFolder(tempFolderPath + "/RightImages"))
+        {
+            string rightImgFolder = AssetDatabase.CreateFolder(tempFolderPath, "RightImages");
+            string rightImgFolderPath = AssetDatabase.GUIDToAssetPath(rightImgFolder);
+        }
 
         SphereMapSystem.transform.position = origin;
         LeftSmSystem.transform.position = origin;
@@ -40,7 +81,7 @@ public class SphereMapTools : ScriptableWizard {
         LeftSmSystem.name = "Left Sphere Map";
         RightSmSystem.name = "Right Sphere Map";
 
-        for(int i = 1; i <= imgAmount/2; i++)
+        for(int i = 1; i <= imgAmount; i++)
         {
             GameObject LeftSphereMap = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             GameObject RightSphereMap = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -61,8 +102,5 @@ public class SphereMapTools : ScriptableWizard {
         SphereMapSystem.transform.localScale = new Vector3(1.25f, 1.25f, 1.25f);
 
     }
-
-    
-
 
 }
