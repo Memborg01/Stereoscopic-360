@@ -44,8 +44,13 @@ public class Fader : MonoBehaviour
 
         mainSpheremap = GameObject.FindGameObjectWithTag("mainSphere");
 
+        Debug.Log("mainSphere = " + mainSpheremap);
+
         leftSpheremap = mainSpheremap.transform.GetChild(0).gameObject;
         rightSpheremap = mainSpheremap.transform.GetChild(1).gameObject;
+
+        Debug.Log("leftSphere = " + leftSpheremap);
+        Debug.Log("rightSphere = " + rightSpheremap);
 
         int childInSpheremap = leftSpheremap.transform.childCount;
 
@@ -154,7 +159,7 @@ public class Fader : MonoBehaviour
     void transHandler()
     {
 
-        float sliceSize = 360 / NumberOfImages;     
+        float sliceSize = 360 / NumberOfImages;       
 
         float normalTrans = 1 / sliceSize;
 

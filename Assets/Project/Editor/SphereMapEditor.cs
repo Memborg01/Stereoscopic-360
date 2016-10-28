@@ -149,7 +149,7 @@ public class SphereMapEditor : Editor {
         string rightFolder = destFolder + "RightImages/";
 
 
-
+            
         for (int i = 0; i< imageAmount; i++)
         {
 
@@ -191,14 +191,14 @@ public class SphereMapEditor : Editor {
             leftMaps[i] = leftParent.transform.GetChild(i).gameObject;
             rightMaps[i] = rightParent.transform.GetChild(i).gameObject;
 
-            Renderer leftRend = leftMaps[i].GetComponent<Renderer>();
-            Renderer rightRend = rightMaps[i].GetComponent<Renderer>();
+            Renderer leftRend = leftMaps[i].gameObject.GetComponent<Renderer>();
+            Renderer rightRend = rightMaps[i].gameObject.GetComponent<Renderer>();
 
             leftRend.material = leftMatAssets[i];
             rightRend.material = rightMatAssets[i];
-
-            leftMatAssets[i].mainTexture = Resources.Load(resSubFolder + "sphereMap_" + i) as Texture2D;
-            rightMatAssets[i].mainTexture = Resources.Load(resSubFolder + "sphereMap_" + rightImgCorrector) as Texture2D;
+            /*
+            leftMatAssets[i].mainTexture = AssetDatabase.LoadAssetAtPath(resSubFolder + "sphereMap_" + i,typeof(Texture)) as Texture;
+            rightMatAssets[i].mainTexture = AssetDatabase.LoadAssetAtPath(resSubFolder + "sphereMap_" + rightImgCorrector,typeof(Texture)) as Texture;*/
 
            
 
