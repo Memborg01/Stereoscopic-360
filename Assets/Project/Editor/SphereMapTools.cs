@@ -31,6 +31,7 @@ public class SphereMapTools : ScriptableWizard {
         string tempFolderPath = "Assets/SphereMaps/" + sphereMapName;
 
         SphereMapProperties properties = SphereMapSystem.AddComponent<SphereMapProperties>();
+        SphereFader sphereFader = SphereMapSystem.AddComponent<SphereFader>();
 
         properties.spheremapName = sphereMapName;
         properties.imagesPerEye = imgAmount;
@@ -116,5 +117,6 @@ public class SphereMapTools : ScriptableWizard {
         SphereMapSystem.transform.localScale = new Vector3(1.25f, 1.25f, 1.25f);
 
     }
+
 
 }

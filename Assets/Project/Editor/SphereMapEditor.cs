@@ -9,15 +9,12 @@ public class SphereMapEditor : Editor {
     public string importFolder = "No Path Set";
     string destFolder, smSysName, resourceFolder, resSubFolder;
 
-    Texture[] tex;
     int imageAmount;
 
     Material[] leftMatAssets, rightMatAssets;
 
 
     GameObject leftParent, rightParent;
-    GameObject[] leftMaps, rightMaps;
-
 
 
     public override void OnInspectorGUI()
@@ -47,19 +44,17 @@ public class SphereMapEditor : Editor {
 
         imageAmount = sphereMapProp.imagesPerEye;
 
-        tex = new Texture[imageAmount];
+
 
         leftMatAssets = new Material[imageAmount];
         rightMatAssets = new Material[imageAmount];
-
-        leftMaps = new GameObject[imageAmount];
-        rightMaps = new GameObject[imageAmount];
 
         if (GUILayout.Button("Import Sphere Map Images"))
         {
             importFolder = EditorUtility.OpenFolderPanel("Load Sphere Map Textures", "", "");
             LoadSphereMaps();
             CreateMaterials();
+            AssetDatabase.Refresh();
 
         }
 
@@ -68,6 +63,7 @@ public class SphereMapEditor : Editor {
 
             LoadMaterialAssets();
             AssignMaterials();
+            AssignTextures();
 
         }
 
@@ -96,6 +92,7 @@ public class SphereMapEditor : Editor {
             if (sphereImg.EndsWith(".png") || sphereImg.EndsWith(".jpg") || sphereImg.EndsWith(".JPG") || sphereImg.EndsWith(".PNG"))
             {
                 File.Copy(sphereImg, resourceFolder + "sphereMap_" + smInt + ".jpg");
+                
                 
 
                 //Keep at bottom
@@ -145,8 +142,8 @@ public class SphereMapEditor : Editor {
     void LoadMaterialAssets()
     {
 
-        string leftFolder = destFolder + "LeftImages/";
-        string rightFolder = destFolder + "RightImages/";
+        string leftFolder = destFolder + "/LeftImages/";
+        string rightFolder = destFolder + "/RightImages/";
 
 
             
@@ -171,7 +168,7 @@ public class SphereMapEditor : Editor {
         for (int i = 0; i < imageAmount; i++)
         {
 
-            Debug.Log("i = " + i);
+            //Debug.Log("i = " + i);
 
             if (rightImgCorrector == imageAmount - 1)
             {
@@ -186,21 +183,59 @@ public class SphereMapEditor : Editor {
                 rightImgCorrector++;
             }
 
-            Debug.Log("Right Corrector = " + rightImgCorrector);
+            //Debug.Log("Right Corrector = " + rightImgCorrector);
 
-            leftMaps[i] = leftParent.transform.GetChild(i).gameObject;
-            rightMaps[i] = rightParent.transform.GetChild(i).gameObject;
+            GameObject tmpLeftMap = leftParent.transform.GetChild(i).gameObject;
+            GameObject tmpRightMap = rightParent.transform.GetChild(i).gameObject;
 
-            Renderer leftRend = leftMaps[i].gameObject.GetComponent<Renderer>();
-            Renderer rightRend = rightMaps[i].gameObject.GetComponent<Renderer>();
+            Renderer leftRend = tmpLeftMap.gameObject.GetComponent<Renderer>();
+            Renderer rightRend = tmpRightMap.gameObject.GetComponent<Renderer>();
 
             leftRend.material = leftMatAssets[i];
             rightRend.material = rightMatAssets[i];
-            /*
-            leftMatAssets[i].mainTexture = AssetDatabase.LoadAssetAtPath(resSubFolder + "sphereMap_" + i,typeof(Texture)) as Texture;
-            rightMatAssets[i].mainTexture = AssetDatabase.LoadAssetAtPath(resSubFolder + "sphereMap_" + rightImgCorrector,typeof(Texture)) as Texture;*/
 
-           
+            Debug.Log("Resource Sub Folder  =  " + resSubFolder);
+            Debug.Log("Left img = " + resSubFolder + "sphereMap_" + i);
+            Debug.Log("Right img = " + resSubFolder + "sphereMap_" + rightImgCorrector);
+
+        }
+
+    }
+
+    void AssignTextures()
+    {
+
+        int rightImgCorrector = imageAmount / 2;
+
+        for(int i = 0; i < imageAmount; i++)
+        {
+
+            if (rightImgCorrector == imageAmount - 1)
+            {
+                rightImgCorrector = 0;
+            }
+            else if (i < imageAmount / 2)
+            {
+                rightImgCorrector = (imageAmount / 2) + i;
+            }
+            else
+            {
+                rightImgCorrector++;
+            }
+
+
+            GameObject tmpLeftMap = leftParent.transform.GetChild(i).gameObject;
+            GameObject tmpRightMap = rightParent.transform.GetChild(i).gameObject;
+
+            Renderer leftRend = tmpLeftMap.GetComponent<Renderer>();
+            Renderer rightRend = tmpRightMap.GetComponent<Renderer>();
+
+
+            Texture tmpLeftImg = Resources.Load(resSubFolder + "sphereMap_" + i) as Texture;
+            Texture tmpRightImg = Resources.Load(resSubFolder + "sphereMap_" + rightImgCorrector) as Texture;
+
+            leftRend.sharedMaterial.mainTexture = tmpLeftImg;
+            rightRend.sharedMaterial.mainTexture = tmpRightImg;
 
         }
 

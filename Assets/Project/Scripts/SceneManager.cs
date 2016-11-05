@@ -5,6 +5,9 @@ using System.Collections;
 
 public class SceneManager : MonoBehaviour {
 
+    public GameObject LeftCamObj;
+    public GameObject RightCamObj;
+
     public Camera LeftCam;
     public Camera CamRight;
 
@@ -13,9 +16,11 @@ public class SceneManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        CamRight.GetComponent<Camera>();
-        LeftCam.GetComponent<Camera>();
+        LeftCamObj = GameObject.Find("Main Camera Left");
+        RightCamObj = GameObject.Find("Main Camera Right");
 
+        LeftCam = LeftCamObj.GetComponent<Camera>();
+        CamRight = RightCamObj.GetComponent<Camera>();
 
         LeftCam.cullingMask = 1 << 8;
         CamRight.cullingMask = 1 << 9;
